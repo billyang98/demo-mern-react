@@ -11,6 +11,36 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
 
+// **** Bill added this stuff for you guys to show connection to the backend **** //
+class Name extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "No Name Yet"
+    };
+  }
+
+  getName() {
+    fetch('http://localhost:9200/name')
+              .then(response => response.json())
+              .then(data => {
+                console.log(data);
+                this.setState(data);
+              });
+  }
+
+  render() {
+    return (
+      <div>
+      <button onClick={() => this.getName()}> Name Button </button>
+      <div>{this.state.name}</div>
+      </div>
+    );
+  }
+}
+ 
+
+// ****** REST OF THE REACT TUTORIAL ****** //
 function Square(props) {
   return (
     <button className="square" onClick={props.onClick}>
@@ -18,6 +48,7 @@ function Square(props) {
     </button>
   );
 }
+
 
 class Board extends React.Component {
   renderSquare(i) {
@@ -116,6 +147,7 @@ class Game extends React.Component {
     }
 
     return (
+      <div>
       <div className="game">
         <div className="game-board">
           <Board
@@ -127,6 +159,8 @@ class Game extends React.Component {
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
+      </div>
+      <Name/>
       </div>
     );
   }
